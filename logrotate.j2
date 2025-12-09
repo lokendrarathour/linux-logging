@@ -1,0 +1,14 @@
+# Custom Log Rotation for system logs
+/var/log/*.log {
+    size 30G
+    rotate 30
+    daily
+    missingok
+    notifempty
+    compress
+    delaycompress
+    copytruncate
+    dateext
+    dateformat -%Y%m%d
+    olddir /var/log/archive
+}

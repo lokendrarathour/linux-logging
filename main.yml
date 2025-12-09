@@ -1,0 +1,33 @@
+---
+- name: Install basic utilities
+  apt:
+    name:
+      - nginx
+      - tree
+      - vim
+    state: present
+    update_cache: yes
+
+- name: Ensure custom log archive directory exists
+  file:
+    path: /var/log/archive
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Deploy custom logrotate configuration
+  template:
+    src: logrotate.j2
+    dest: /etc/logrotate.d/custom-logs
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Add cron job for daily log rotation check
+  cron:
+    name: "Daily log rotation"
+    job: "/usr/sbin/logrotate /etc/logrotate.conf"
+    state: present
+    minute: "0"
+    hour: "2"

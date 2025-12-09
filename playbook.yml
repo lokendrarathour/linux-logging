@@ -1,0 +1,5 @@
+- name: System Bootstrap & Log Rotation Setup
+  hosts: servers
+  become: yes
+  roles:
+    - system_setup
